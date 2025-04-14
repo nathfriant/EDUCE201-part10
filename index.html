@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title></title>
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/night.css" id="theme" />
+    <link rel="stylesheet" href="plugin/highlight/zenburn.css" />
+	<link rel="stylesheet" href="css/layout.css" />
+	<link rel="stylesheet" href="plugin/customcontrols/style.css">
+	<link rel="stylesheet" href="plugin/chalkboard/style.css">
+
+
+
+    <script defer src="dist/fontawesome/all.min.js"></script>
+
+	<script type="text/javascript">
+		var forgetPop = true;
+		function onPopState(event) {
+			if(forgetPop){
+				forgetPop = false;
+			} else {
+				parent.postMessage(event.target.location.href, "app://obsidian.md");
+			}
+        }
+		window.onpopstate = onPopState;
+		window.onmessage = event => {
+			if(event.data == "reload"){
+				window.document.location.reload();
+			}
+			forgetPop = true;
+		}
+
+		function fitElements(){
+			const itemsToFit = document.getElementsByClassName('fitText');
+			for (const item in itemsToFit) {
+				if (Object.hasOwnProperty.call(itemsToFit, item)) {
+					var element = itemsToFit[item];
+					fitElement(element,1, 1000);
+					element.classList.remove('fitText');
+				}
+			}
+		}
+
+		function fitElement(element, start, end){
+
+			let size = (end + start) / 2;
+			element.style.fontSize = `${size}px`;
+
+			if(Math.abs(start - end) < 1){
+				while(element.scrollHeight > element.offsetHeight){
+					size--;
+					element.style.fontSize = `${size}px`;
+				}
+				return;
+			}
+
+			if(element.scrollHeight > element.offsetHeight){
+				fitElement(element, start, size);
+			} else {
+				fitElement(element, size, end);
+			}		
+		}
+
+
+		document.onreadystatechange = () => {
+			fitElements();
+			if (document.readyState === 'complete') {
+				if (window.location.href.indexOf("?export") != -1){
+					parent.postMessage(event.target.location.href, "app://obsidian.md");
+				}
+				if (window.location.href.indexOf("print-pdf") != -1){
+					let stateCheck = setInterval(() => {
+						clearInterval(stateCheck);
+						window.print();
+					}, 250);
+				}
+			}
+	};
+
+
+        </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Analyse des systèmes éducatifs
+### Exploration systématique du modèle de ségrégation
+
+Nathanaël Friant
+
+2024-2025
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Plan de la séance
+
+1. Activation des connaissances préalables
+2. Introduction à la modélisation NetLogo
+3. Exploration guidée du modèle
+4. Construction collective d'un modèle mental
+5. Métacognition et transfert
+
+<aside class="notes"><p>Notre séance d&#39;aujourd&#39;hui suit l&#39;approche de &quot;Knowledge in Pieces&quot; proposée par diSessa, qui considère que la connaissance se construit en intégrant progressivement des éléments de savoir fragmentés.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Phase 1: Activation des connaissances préalables
+
+#### Quelles sont vos intuitions sur la ségrégation scolaire?
+
+<aside class="notes"><p>Commençons par expliciter vos conceptions préalables sur ce phénomène, avant d&#39;explorer le modèle. Ces intuitions constitueront notre point de départ.</p>
+</div></aside></script></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Questions Wooclap
+
+<small>
+1. Quel niveau de préférence pour l'entre-soi faut-il pour observer une ségrégation importante?
+
+2. Comment les réseaux sociaux des élèves influencent-ils et sont-ils influencés par la ségrégation?
+
+3. Quelle politique serait la plus efficace pour réduire la ségrégation scolaire?
+   - Une politique de quotas stricts
+   - Une incitation à la mixité par le financement des établissements
+   - Une politique donnant une certaine priorité aux élèves les plus défavorisés quand la demande excède l'offre
+
+</small>
+<aside class="notes"><p>Ces trois questions permettent d&#39;explorer vos intuitions sur les causes, les conséquences et les interventions possibles face à la ségrégation scolaire.</p>
+</div></aside></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Questions Wooclap (2)
+
+
+1. Allez sur **wooclap.com**
+2. Entrez le code d'événement dans le bandeau supérieur
+
+Code d'événement: **RUUGTY**
+
+<img src="Pasted image 20250414121643.png" alt="" style="width: 300px; object-fit: fill">
+</div></script></section></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Phase 2: Introduction à la modélisation
+
+### Le modèle NetLogo de ségrégation scolaire
+
+<aside class="notes"><p>Je vais maintenant vous présenter le modèle multi-agents que nous utiliserons aujourd&#39;hui, en expliquant ses composants et son fonctionnement.</p>
+<p>Utilisez le document &quot;<a href="https://uv.ulb.ac.be/pluginfile.php/4180697/mod_folder/content/0/fiche-technique-modele.pdf?forcedownload=1">fiche-technique-modele.pdf</a>&quot; disponible sur l&#39;UV (dans le dossier &quot;Modèle NetLogo) pour obtenir toutes les informations sur ce modèle</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Entités du modèle
+
+- **Élèves**: 
+  - Classe sociale (favorisé, moyen, défavorisé)
+  - Niveau de préférence pour l'entre-soi
+  - Réseaux sociaux qui se forment à l'école
+
+- **Écoles**:
+  - Capacité d'accueil limitée
+  - Composition sociale évolutive
+  - Sélectivité variable
+
+<aside class="notes"><p>Le modèle simule trois classes sociales avec des niveaux de tolérance potentiellement différents. Les écoles ont des capacités limitées et peuvent appliquer différentes politiques de sélection.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Mécanismes principaux
+
+1. **Choix d'école**: Les élèves choisissent des écoles où la proportion d'élèves similaires dépasse leur seuil de tolérance
+
+2. **Sélection**: Les écoles sélectionnent les élèves selon différentes politiques (aléatoire, homogénéité, mixité, quotas)
+
+3. **Réseaux**: Les élèves forment des réseaux sociaux au sein de leur école
+
+4. **Indicateurs**: Mesure de la ségrégation (indice de Duncan) et diversité des réseaux
+
+<aside class="notes"><p>Le modèle repose sur l&#39;interaction entre les préférences individuelles et les politiques institutionnelles, créant des dynamiques complexes d&#39;auto-organisation.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Paramètres du modèle
+
+- **Composition sociale** (proportion de chaque groupe)
+- **Niveaux de préférence pour l'entre-soi** par classe sociale (= "tolérance")
+- **Nombre et capacité** des écoles
+- **Politiques d'intervention**:
+  - Politique de mixité sociale
+  - Politique de quotas
+  - Sélectivité des écoles
+
+<aside class="notes"><p>Ces paramètres sont ajustables et nous permettront d&#39;explorer différents scénarios pour comprendre les dynamiques de ségrégation.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Phase 3: Exploration guidée du modèle
+
+### Scénario 1: Impact des préférences individuelles
+
+<aside class="notes"><p>Nous allons maintenant explorer comment différents niveaux de tolérance influencent l&#39;émergence de la ségrégation, même sans politiques actives.</p>
+<p>Utilisez maintenant le document &quot;<a href="https://uv.ulb.ac.be/pluginfile.php/4180697/mod_folder/content/0/protocole-observations-scenario1.pdf?forcedownload=1">protocole-observations-scenario1.pdf</a>&quot; pour remplir vos prédictions, observations et réflexions.</p>
+</div></aside></script></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Tableau de prédiction
+
+| Niveau de préférence pour l'entre-soi (un seul groupe) | Prédiction (ségrégation attendue) | Observation réelle | Écart |
+| ------------------------------------------------------ | --------------------------------- | ------------------ | ----- |
+| Faible (0.1)                                           |                                   |                    |       |
+| Modéré (0.3)                                           |                                   |                    |       |
+| Élevé (0.5)                                            |                                   |                    |       |
+
+<aside class="notes"><p>Prenez quelques minutes pour remplir la colonne &quot;Prédiction&quot; avant que nous lancions les simulations. Nous comparerons ensuite vos prédictions avec les résultats observés.</p>
+</div></aside></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Tableau de prédiction (2)
+
+| Niveau de préférence pour l'entre-soi (plusieurs groupes) | Prédiction (ségrégation attendue) | Observation réelle | Écart |
+| --------------------------------------------------------- | --------------------------------- | ------------------ | ----- |
+| Faible (0.1)                                              |                                   |                    |       |
+| Modéré (0.3)                                              |                                   |                    |       |
+| Élevé (0.5)                                               |                                   |                    |       |
+
+<aside class="notes"><p>Prenez quelques minutes pour remplir la colonne &quot;Prédiction&quot; avant que nous lancions les simulations. Nous comparerons ensuite vos prédictions avec les résultats observés.</p>
+</div></aside></script></section></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Scénario 2: Politiques d'intervention
+
+#### Protocole d'observation:
+1. Observer 50 itérations sans politique
+2. Activer la politique et observer 50 itérations supplémentaires
+3. Noter l'évolution de l'indice de ségrégation
+4. Identifier l'effet sur la diversité des réseaux
+
+<aside class="notes"><p>Nous allons maintenant tester l&#39;efficacité de différentes politiques d&#39;intervention. Soyez particulièrement attentifs aux effets à court terme versus long terme.</p>
+<p>Utilisez maintenant le document &quot;<a href="https://uv.ulb.ac.be/pluginfile.php/4180697/mod_folder/content/0/protocole-observations-scenario2.pdf?forcedownload=1">protocole-observations-scenario2.pdf</a>&quot; pour remplir vos prédictions, observations et réflexions.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Questions à explorer
+
+- Pourquoi observe-t-on parfois un **effet rebond** avec certaines politiques?
+- Comment la **diversité des réseaux** évolue-t-elle avec chaque politique?
+- Comment la **composition sociale** influence-t-elle l'efficacité des politiques?
+
+<aside class="notes"><p>Ces questions nous aideront à comprendre les dynamiques systémiques complexes et à identifier les facteurs critiques pour des interventions efficaces.</p>
+<p>Vos réponses sont enregistrées en séance dans Wooclap.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Scénario collaboratif
+
+En groupes, proposez un scénario à tester:
+- Quels niveaux de tolérance pour chaque groupe?
+- Quelle politique tester?
+- Quelle distribution sociale?
+- Quelle prédiction faites-vous?
+
+<aside class="notes"><p>C&#39;est maintenant à vous de définir les paramètres à tester. Formulez une hypothèse claire sur ce que vous vous attendez à observer.</p>
+<p>Utilisez maintenant le document &quot;<a href="https://uv.ulb.ac.be/pluginfile.php/4180697/mod_folder/content/0/scenario-collaboratif.pdf?forcedownload=1">scenario-collaboratif.pdf</a>&quot; pour remplir vos prédictions, observations et réflexions.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Phase 4: Construction collective d'un modèle mental
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Activité en groupes (15 min)
+
+**Objectif**: Élaborer un schéma causal des mécanismes de ségrégation scolaire
+
+**Instructions**:
+1. Formez des groupes
+2. Créez un schéma qui explique:
+   - Les causes de la ségrégation
+   - Les mécanismes de son maintien ou renforcement
+   - Les points d'intervention possibles
+
+<aside class="notes"><p>Cette activité vous permettra d&#39;intégrer vos observations fragmentées en un modèle mental cohérent, en identifiant les relations causales entre les différents éléments du système.</p>
+<p>Utilisez maintenant le document &quot;<a href="https://uv.ulb.ac.be/pluginfile.php/4180697/mod_folder/content/0/activite-schema-causal.pdf?forcedownload=1">activite-schema-causal.pdf</a>&quot; pour réaliser cette activité.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Identification des boucles de rétroaction
+
+Identifiez au moins deux boucles de rétroaction:
+
+1. **Boucle de renforcement**:
+   - Comment la ségrégation peut s'auto-amplifier?
+   
+2. **Boucle d'équilibrage**:
+   - Quels mécanismes pourraient naturellement limiter la ségrégation?
+
+<aside class="notes"><p>Les boucles de rétroaction sont essentielles pour comprendre la dynamique d&#39;un système complexe et identifier les leviers d&#39;intervention efficaces.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Mise en commun (10 min)
+
+- Présentation rapide d'un ou deux schémas (1-2 min)
+- Construction d'un modèle intégré
+- Comparaison avec les conceptions initiales
+- Identification des principaux insights
+
+<aside class="notes"><p>Cette mise en commun permettra de confronter vos différentes compréhensions et d&#39;élaborer collectivement une vision plus riche et nuancée des mécanismes de ségrégation.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Phase 5: Métacognition et transfert
+
+<aside class="notes"><p>Utilisez le document &quot;<a href="https://uv.ulb.ac.be/pluginfile.php/4180697/mod_folder/content/0/reflexion-metacognitive.pdf?forcedownload=1">reflexion-metacognitive.pdf</a>&quot; pour réaliser cette activité.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Réflexion individuelle (Wooclap)
+
+1. **Surprise**: Quelle découverte la plus contre-intuitive avez-vous faite aujourd'hui?
+
+2. **Évolution**: Comment votre compréhension des mécanismes de ségrégation a-t-elle changé?
+
+3. **Application**: Quelle implication voyez-vous pour les politiques éducatives réelles?
+
+4. **Limites**: Quel aspect du modèle vous semble le plus simplificateur? Le plus éclairant?
+
+<aside class="notes"><p>Cette réflexion métacognitive vous permet de prendre conscience de l&#39;évolution de votre compréhension et d&#39;identifier les apprentissages les plus significatifs.</p>
+</div></aside></script></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Du modèle à la réalité
+
+**Forces du modèle**:
+- Visualisation de dynamiques complexes
+- Test d'hypothèses et de politiques
+- Identification des effets émergents et non-linéaires
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Du modèle à la réalité (2)
+**Limites du modèle**:
+- Simplification des comportements humains
+- Abstraction des contextes historiques et culturels
+- Omission de certains facteurs (ex: réputation des écoles)
+
+<aside class="notes"><p>Cette réflexion critique sur les forces et limites de la modélisation est essentielle pour une compréhension nuancée de son apport à l&#39;analyse des politiques éducatives.</p>
+</div></aside></script></section></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Extension et transfert
+
+**Comment les principes découverts s'appliquent-ils à d'autres contextes?**
+
+- Ségrégation urbaine
+- Inégalités d'accès à l'enseignement supérieur
+- Formation des groupes d'amis dans une classe
+- Différenciation des filières d'enseignement
+- Harcèlement sur les réseaux sociaux numériques
+- Dynamiques dans une cours de récréation
+- ...
+
+<aside class="notes"><p>Cette diapositive vise à élargir la réflexion et à montrer la transférabilité des principes de système complexe à d&#39;autres domaines pertinents.</p>
+</div></aside></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Synthèse des apprentissages clés
+
+1. **Complexité émergente**: La ségrégation émerge de comportements individuels simples
+
+2. **Boucles de rétroaction**: Les choix individuels et les structures institutionnelles s'influencent mutuellement
+
+3. **Effets systémiques**: Les politiques doivent considérer l'ensemble du système et ses dynamiques
+
+4. **Approche evidence-based**: La modélisation permet d'anticiper les effets potentiels des interventions
+
+5. **Diversité des réseaux**: Les conséquences de la ségrégation dépassent la simple composition des écoles
+
+<aside class="notes"><p>Cette synthèse reprend les points essentiels du cours et les formule comme des principes généraux applicables au-delà du cas étudié.</p>
+</div></aside></script></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+## Merci de votre participation!
+
+Des questions?
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 960px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+### Pour aller plus loin
+
+<aside class="notes"><ul>
+<li>Consulter la documentation et le code source du modèle (disponibles l&#39;UV). </li>
+<li>Ne pas hésiter à poser vos questions maintenant ou à me contacter ultérieurement pour approfondir certains points discutés aujourd&#39;hui.</li>
+<li>Pourquoi pas tester la construction d&#39;un modèle sur un autre phénomène éducatif (en s&#39;aidant d&#39;une IA générative pour coder) ? </li>
+<li>Sur l&#39;approche pédagogique mise en place aujourd&#39;hui: voir diSessa (2017)</li>
+</ul>
+<p>Référence:
+diSessa, A. A. (2017). Une introduction accessible à la « Connaissance par Morceaux » (G. Gueudet, Trad.). <em>Éducation et didactique</em>, <em>11</em>(2). <a href="https://doi.org/10.4000/educationdidactique.2781">https://doi.org/10.4000/educationdidactique.2781</a></p>
+</div></aside></script></section></section></div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/math/math.js"></script>
+	<script src="plugin/mermaid/mermaid.js"></script>
+	<script src="plugin/chart/chart.min.js"></script>
+	<script src="plugin/chart/plugin.js"></script>
+	<script src="plugin/menu/menu.js"></script>
+	<script src="plugin/customcontrols/plugin.js"></script>
+	<script src="plugin/chalkboard/plugin.js"></script>
+
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+	  function isLight(color) {
+		let hex = color.replace('#', '');
+
+		// convert #fff => #ffffff
+		if(hex.length == 3){
+			hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
+		}
+
+		const c_r = parseInt(hex.substr(0, 2), 16);
+		const c_g = parseInt(hex.substr(2, 2), 16);
+		const c_b = parseInt(hex.substr(4, 2), 16);
+		const brightness = ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+		return brightness > 155;
+	}
+
+	var bgColor = getComputedStyle(document.documentElement).getPropertyValue('--r-background-color').trim();
+	var isLight = isLight(bgColor);
+
+	if(isLight){
+		document.body.classList.add('has-light-background');
+	} else {
+		document.body.classList.add('has-dark-background');
+	}
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath.MathJax3,
+		  RevealMermaid,
+		  RevealChart,
+		  RevealCustomControls,
+		  RevealMenu,
+		  RevealChalkboard, 
+        ],
+
+
+    	allottedTime: 120 * 1000,
+
+		mathjax3: {
+			mathjax: 'plugin/math/mathjax/tex-mml-chtml.js',
+		},
+		markdown: {
+		  gfm: true,
+		  mangle: true,
+		  pedantic: false,
+		  smartLists: false,
+		  smartypants: false,
+		},
+
+		mermaid: {
+			theme: isLight ? 'default' : 'dark',
+		},
+
+		customcontrols: {
+			controls: [
+				{id: 'toggle-overview',
+				title: 'Toggle overview (O)',
+				icon: '<i class="fa fa-th"></i>',
+				action: 'Reveal.toggleOverview();'
+				},
+				{ icon: '<i class="fa fa-pen-square"></i>',
+				title: 'Toggle chalkboard (B)',
+				action: 'RevealChalkboard.toggleChalkboard();'
+				},
+				{ icon: '<i class="fa fa-pen"></i>',
+				title: 'Toggle notes canvas (C)',
+				action: 'RevealChalkboard.toggleNotesCanvas();'
+				},
+			]
+		},
+		menu: {
+			loadIcons: false
+		}
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"width":960,"height":700,"margin":0.04,"controls":true,"progress":true,"slideNumber":true,"showNotes":true,"transition":"slide","transitionSpeed":"fast"}, queryOptions);
+    </script>
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+
+  <!-- created with Advanced Slides -->
+</html>
